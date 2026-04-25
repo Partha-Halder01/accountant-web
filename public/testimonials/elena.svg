@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" role="img" aria-labelledby="title desc">
+  <title id="title">Portrait illustration of Elena</title>
+  <desc id="desc">A stylized portrait illustration used for a testimonial card.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7c2d12" />
+      <stop offset="45%" stop-color="#0ea5e9" />
+      <stop offset="100%" stop-color="#84cc16" />
+    </linearGradient>
+    <linearGradient id="top" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0369a1" />
+      <stop offset="100%" stop-color="#84cc16" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="600" fill="url(#bg)" />
+  <circle cx="92" cy="118" r="110" fill="#ffffff" opacity=".13" />
+  <circle cx="388" cy="168" r="98" fill="#082f49" opacity=".13" />
+  <ellipse cx="240" cy="648" rx="232" ry="220" fill="#0f172a" opacity=".82" />
+  <ellipse cx="240" cy="470" rx="152" ry="124" fill="url(#top)" />
+  <path d="M172 430c20-34 47-53 68-53 21 0 49 19 68 53v80H172Z" fill="#f8fafc" opacity=".95" />
+  <rect x="214" y="318" width="52" height="84" rx="26" fill="#efc3a2" />
+  <ellipse cx="240" cy="238" rx="84" ry="102" fill="#efc3a2" />
+  <path d="M152 240c0-80 45-126 96-126 53 0 96 43 96 115 0 21-3 40-8 56-18-31-46-48-88-48-41 0-72 15-96 44-1-9 0-26 0-41z" fill="#6b3f2a" />
+  <path d="M170 246c8 66 39 112 70 112 48 0 82-68 81-124-17 20-38 31-72 31-34 0-56-10-79-19z" fill="#efc3a2" />
+  <circle cx="208" cy="240" r="5" fill="#4b2e1c" />
+  <circle cx="272" cy="240" r="5" fill="#4b2e1c" />
+  <path d="M223 282c10 8 24 8 34 0" fill="none" stroke="#92400e" stroke-linecap="round" stroke-width="4" />
+  <path d="M209 294c8 16 55 16 63 0" fill="none" stroke="#9a3412" stroke-linecap="round" stroke-width="5" />
+  <path d="M176 213c18-14 42-21 72-21 35 0 61 9 84 26" fill="none" stroke="#fcd34d" stroke-linecap="round" stroke-opacity=".3" stroke-width="6" />
+</svg>

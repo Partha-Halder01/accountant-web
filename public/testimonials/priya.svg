@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" role="img" aria-labelledby="title desc">
+  <title id="title">Portrait illustration of Priya</title>
+  <desc id="desc">A stylized portrait illustration used for a testimonial card.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#082f49" />
+      <stop offset="48%" stop-color="#7c3aed" stop-opacity=".28" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
+    <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="600" fill="url(#bg)" />
+  <circle cx="96" cy="108" r="114" fill="#84cc16" opacity=".16" />
+  <circle cx="392" cy="154" r="92" fill="#ffffff" opacity=".1" />
+  <ellipse cx="240" cy="648" rx="232" ry="220" fill="#082f49" opacity=".9" />
+  <ellipse cx="240" cy="470" rx="152" ry="124" fill="url(#coat)" />
+  <path d="M170 430c22-34 50-53 70-53 20 0 48 19 70 53v80H170Z" fill="#f8fafc" opacity=".95" />
+  <rect x="214" y="318" width="52" height="84" rx="26" fill="#cf936d" />
+  <ellipse cx="240" cy="238" rx="84" ry="102" fill="#cf936d" />
+  <circle cx="240" cy="112" r="36" fill="#1f2937" />
+  <path d="M154 244c0-77 43-126 90-126 56 0 98 43 98 118 0 16-3 31-8 49-16-31-45-55-92-55-39 0-68 18-88 39z" fill="#1f2937" />
+  <path d="M170 246c10 66 41 113 70 113 49 0 82-69 82-126-17 19-38 31-73 31-33 0-56-8-79-18z" fill="#cf936d" />
+  <circle cx="208" cy="240" r="5" fill="#111827" />
+  <circle cx="272" cy="240" r="5" fill="#111827" />
+  <path d="M223 282c10 8 24 8 34 0" fill="none" stroke="#92400e" stroke-linecap="round" stroke-width="4" />
+  <path d="M210 294c8 17 53 17 61 0" fill="none" stroke="#9a3412" stroke-linecap="round" stroke-width="5" />
+  <path d="M183 170c12 24 38 39 64 39 25 0 53-13 69-38" fill="none" stroke="#94a3b8" stroke-linecap="round" stroke-opacity=".35" stroke-width="7" />
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" role="img" aria-labelledby="title desc">
+  <title id="title">Portrait illustration of James</title>
+  <desc id="desc">A stylized portrait illustration used for a testimonial card.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="52%" stop-color="#0b4d72" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <linearGradient id="jacket" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#082f49" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="600" fill="url(#bg)" />
+  <circle cx="92" cy="118" r="110" fill="#84cc16" opacity=".18" />
+  <circle cx="396" cy="136" r="90" fill="#ffffff" opacity=".1" />
+  <ellipse cx="240" cy="650" rx="232" ry="220" fill="#082f49" opacity=".92" />
+  <ellipse cx="240" cy="468" rx="150" ry="122" fill="url(#jacket)" />
+  <path d="M175 430c20-34 49-53 65-53s45 19 65 53v82H175Z" fill="#f8fafc" opacity=".92" />
+  <rect x="214" y="316" width="52" height="86" rx="26" fill="#d9a07c" />
+  <ellipse cx="240" cy="236" rx="88" ry="104" fill="#d9a07c" />
+  <path d="M154 240c0-83 44-124 97-124 54 0 99 44 99 118-12-17-34-28-58-28-39 0-55 16-86 16-16 0-31-4-52-13z" fill="#111827" />
+  <path d="M166 246c6 60 35 108 74 108 53 0 85-74 83-145-10 26-30 45-65 45-33 0-53-13-92-8z" fill="#d9a07c" />
+  <path d="M173 243c7 76 41 122 74 122 49 0 83-68 82-136-8 24-28 41-62 41-35 0-58-14-94-27z" fill="none" />
+  <circle cx="206" cy="238" r="5" fill="#1f2937" />
+  <circle cx="274" cy="238" r="5" fill="#1f2937" />
+  <path d="M225 280c10 8 22 8 32 0" fill="none" stroke="#9a3412" stroke-linecap="round" stroke-width="4" />
+  <path d="M205 292c11 26 59 26 70 0" fill="none" stroke="#7c2d12" stroke-linecap="round" stroke-width="6" />
+  <path d="M192 336c9 20 22 32 48 32 27 0 41-12 49-32" fill="none" stroke="#7c2d12" stroke-linecap="round" stroke-width="9" opacity=".55" />
+  <path d="M170 468c24-48 53-74 70-74 17 0 35 12 70 74" fill="#082f49" opacity=".22" />
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" role="img" aria-labelledby="title desc">
+  <title id="title">Portrait illustration of David</title>
+  <desc id="desc">A stylized portrait illustration used for a testimonial card.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="42%" stop-color="#075985" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
+    <linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#164e63" />
+      <stop offset="100%" stop-color="#22d3ee" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="600" fill="url(#bg)" />
+  <circle cx="110" cy="110" r="100" fill="#ffffff" opacity=".1" />
+  <circle cx="398" cy="164" r="100" fill="#84cc16" opacity=".14" />
+  <ellipse cx="240" cy="648" rx="234" ry="220" fill="#082f49" opacity=".88" />
+  <ellipse cx="240" cy="468" rx="152" ry="124" fill="url(#shirt)" />
+  <path d="M172 430c23-34 51-52 68-52 18 0 45 18 68 52v81H172Z" fill="#f8fafc" opacity=".95" />
+  <rect x="214" y="316" width="52" height="86" rx="26" fill="#d7a07c" />
+  <ellipse cx="240" cy="238" rx="86" ry="102" fill="#d7a07c" />
+  <path d="M171 231c0-38 31-93 69-93 60 0 83 53 83 97-18-25-47-36-80-36-28 0-51 8-72 32z" fill="#334155" />
+  <path d="M170 242c7 66 38 113 70 113 47 0 80-66 80-122-17 18-39 29-74 29-32 0-52-8-76-20z" fill="#d7a07c" />
+  <circle cx="208" cy="240" r="5" fill="#1e293b" />
+  <circle cx="272" cy="240" r="5" fill="#1e293b" />
+  <path d="M225 280c10 7 22 7 32 0" fill="none" stroke="#9a3412" stroke-linecap="round" stroke-width="4" />
+  <path d="M205 294c11 20 59 20 70 0" fill="none" stroke="#7c2d12" stroke-linecap="round" stroke-width="5" />
+  <path d="M194 202c17-16 31-21 49-21 18 0 34 7 48 21" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-opacity=".45" stroke-width="6" />
+</svg>
