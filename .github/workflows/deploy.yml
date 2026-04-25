@@ -9,25 +9,25 @@ concurrency:
   group: deploy-prod
   cancel-in-progress: false
 
-env:
-  IONOS_HOST: ${{ secrets.IONOS_SFTP_HOST }}
-  IONOS_USER: ${{ secrets.IONOS_SFTP_USER }}
-  IONOS_PASS: ${{ secrets.IONOS_SFTP_PASSWORD }}
-
 jobs:
-  frontend:
-    name: Build & deploy frontend
+  deploy:
+    name: Build & deploy
     runs-on: ubuntu-latest
+    env:
+      SFTP_HOST: ${{ secrets.IONOS_SFTP_HOST }}
+      SFTP_USER: ${{ secrets.IONOS_SFTP_USER }}
+      SFTP_PASS: ${{ secrets.IONOS_SFTP_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
 
+      # ── Frontend build ───────────────────────────────────────────────
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
-      - name: Install deps
+      - name: Install frontend deps
         working-directory: frontend
         run: npm ci
 
@@ -35,30 +35,13 @@ jobs:
         working-directory: frontend
         run: npm run optimize:images
 
-      - name: Build (Vite + prerender)
+      - name: Build frontend
         working-directory: frontend
         run: npm run build
         env:
           VITE_API_BASE_URL: https://easyacct.us
 
-      - name: Upload frontend via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
-        with:
-          server: ${{ env.IONOS_HOST }}
-          username: ${{ env.IONOS_USER }}
-          password: ${{ env.IONOS_PASS }}
-          local_path: 'frontend/dist/*'
-          remote_path: '/'
-          sftp_only: true
-          delete_remote_files: false
-
-  backend:
-    name: Build & deploy backend
-    needs: frontend
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
+      # ── Backend build ────────────────────────────────────────────────
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
@@ -70,6 +53,7 @@ jobs:
         working-directory: backend
         run: composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress
 
+      # ── Stage server tree ────────────────────────────────────────────
       - name: Stage server tree
         run: |
           set -euo pipefail
@@ -88,35 +72,49 @@ jobs:
             --exclude='storage/framework/views/*' \
             --exclude='storage/framework/testing/*' \
             backend/ stage/_laravel/
-          # Keep .gitignore-only directories alive on the server
-          find stage/_laravel/storage -type d -empty -exec touch {}/.gitkeep \;
+          # Make sure storage subdirs exist on the server even though we excluded their contents
+          mkdir -p stage/_laravel/storage/framework/{cache/data,sessions,views,testing}
+          mkdir -p stage/_laravel/storage/logs
+          touch stage/_laravel/storage/framework/cache/data/.gitkeep
+          touch stage/_laravel/storage/framework/sessions/.gitkeep
+          touch stage/_laravel/storage/framework/views/.gitkeep
+          touch stage/_laravel/storage/logs/.gitkeep
           cp -r deploy/api/. stage/api/
+          ls -la stage/
+          ls -la stage/api/
 
-      - name: Upload _laravel via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
-        with:
-          server: ${{ env.IONOS_HOST }}
-          username: ${{ env.IONOS_USER }}
-          password: ${{ env.IONOS_PASS }}
-          local_path: 'stage/_laravel/*'
-          remote_path: '/_laravel'
-          sftp_only: true
-          delete_remote_files: false
+      # ── SFTP upload via lftp (handles dotfiles correctly) ────────────
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
-      - name: Upload api/ via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
-        with:
-          server: ${{ env.IONOS_HOST }}
-          username: ${{ env.IONOS_USER }}
-          password: ${{ env.IONOS_PASS }}
-          local_path: 'stage/api/*'
-          remote_path: '/api'
-          sftp_only: true
-          delete_remote_files: false
+      - name: Upload via SFTP
+        run: |
+          set -euo pipefail
+          cat > .lftp-script <<'LFTPEOF'
+          set sftp:auto-confirm yes
+          set net:max-retries 3
+          set net:reconnect-interval-base 5
+          set xfer:clobber on
+          # Frontend → /
+          mirror -R -v --no-perms --parallel=4 \
+            --exclude-glob '_laravel/' --exclude-glob 'api/' \
+            frontend/dist/ /
+          # Backend Laravel app → /_laravel
+          mirror -R -v --no-perms --parallel=4 --delete \
+            --exclude-glob '.env' \
+            stage/_laravel/ /_laravel/
+          # Custom Laravel front controller → /api
+          mirror -R -v --no-perms --parallel=4 --delete \
+            stage/api/ /api/
+          bye
+          LFTPEOF
+          lftp -u "$SFTP_USER","$SFTP_PASS" -e "source .lftp-script" "sftp://$SFTP_HOST"
 
+      # ── Run migrations + cache warm via HTTPS endpoint ───────────────
       - name: Run migrations + cache warm
         run: |
           set -e
+          echo "Calling /api/_admin/migrate..."
           curl --fail --silent --show-error \
             "https://easyacct.us/api/_admin/migrate?token=${{ secrets.ADMIN_API_TOKEN }}" \
             | tee migrate.out
