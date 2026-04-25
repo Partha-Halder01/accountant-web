@@ -2,7 +2,32 @@
 
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\ContactMessageController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
+// Token-guarded ops endpoint — IONOS shared hosting has no shell, so deploys
+// trigger migrations + cache warm by GET-ing this route after upload.
+Route::get('/_admin/migrate', function (Request $request) {
+    $expected = (string) env('ADMIN_API_TOKEN', '');
+    $given = (string) $request->query('token', '');
+    abort_if($expected === '' || ! hash_equals($expected, $given), 403);
+
+    $output = [];
+    foreach ([
+        ['migrate', ['--force' => true]],
+        ['config:cache', []],
+        ['route:cache', []],
+        ['view:cache', []],
+        ['event:cache', []],
+    ] as [$cmd, $args]) {
+        Artisan::call($cmd, $args);
+        $output[] = "$ php artisan {$cmd}\n" . Artisan::output();
+    }
+
+    return response('<pre>' . e(implode("\n", $output)) . '</pre>')
+        ->header('Content-Type', 'text/html; charset=utf-8');
+})->middleware('throttle:5,1')->name('api.admin.migrate');
 
 Route::post('/contact', [ContactMessageController::class, 'store'])
     ->middleware('throttle:20,1')

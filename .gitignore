@@ -22,6 +22,10 @@ backend/public/hot
 backend/storage/*.key
 backend/database/*.sqlite
 
+# Deploy staging artifacts (created by GitHub Actions; never commit)
+stage/
+_laravel/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
