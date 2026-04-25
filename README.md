@@ -1,16 +1,35 @@
-# React + Vite
+# Accountant Web Monorepo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is now split into two apps:
 
-Currently, two official plugins are available:
+- `frontend/` for the React + Vite website
+- `backend/` for the Laravel API and admin panel
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Frontend
 
-## React Compiler
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Use `frontend/.env.example` as the starting point for `frontend/.env` when you need a custom API URL.
 
-## Expanding the ESLint configuration
+## Backend
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+cd backend
+php artisan migrate --seed
+php artisan serve
+```
+
+Admin panel URL:
+
+- `http://127.0.0.1:8000/admin/login`
+
+Default seeded admin credentials:
+
+- Email: `admin@easyacct.us`
+- Password: `ChangeMe123!`
+
+Change those credentials in `backend/.env` before production use.

@@ -1,0 +1,5 @@
+/* App-level layout */
+main { min-height: 70vh; }
+.admin-main { min-height: 100vh; }
+/* Pages that DON'T have a full-screen hero need space for fixed nav */
+.page-hero { padding-top: calc(var(--s-9) + 88px) !important; }

@@ -1,0 +1,33 @@
+- main [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - img "EasyAcct" [ref=e7]
+        - generic [ref=e8]: EasyAcct
+      - heading "Command center for every client inquiry." [level=1] [ref=e9]
+      - paragraph [ref=e10]: Review contact messages, track follow-up status, and manage admin access from one focused workspace.
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - img [ref=e13]
+          - text: Messages
+        - generic [ref=e16]:
+          - img [ref=e17]
+          - text: Secure Login
+        - generic [ref=e20]:
+          - img [ref=e21]
+          - text: Live Stats
+    - generic [ref=e23]:
+      - paragraph [ref=e24]: Admin Panel
+      - heading "Sign In" [level=2] [ref=e25]
+      - paragraph [ref=e26]: Use your admin account to open the contact dashboard.
+      - generic [ref=e27]:
+        - generic [ref=e28]: Email
+        - textbox "Email" [ref=e29]: admin@easyacct.us
+      - generic [ref=e30]:
+        - generic [ref=e31]: Password
+        - textbox "Password" [ref=e32]: ChangeMe123!
+      - button "Login" [ref=e33] [cursor=pointer]:
+        - img [ref=e34]
+        - text: Login
+        - img [ref=e37]
+      - paragraph [ref=e39]: "Default login: admin@easyacct.us / ChangeMe123!"
