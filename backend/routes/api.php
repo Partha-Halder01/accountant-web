@@ -70,23 +70,23 @@ Route::post('/_admin/reset-credentials', function (Request $request) use ($admin
     $lookup = $data['old_email'] ?? $data['email'];
     $user = User::where('email', $lookup)->first();
     if (! $user) {
-        // Fall back to first admin user
-        $user = User::where('is_admin', true)->first();
-    }
-    if (! $user) {
-        return response()->json(['error' => 'No admin user found'], 404);
+        // Fall back to first admin user, otherwise create a new admin.
+        $user = User::where('is_admin', true)->first() ?? new User();
     }
 
+    $created = ! $user->exists;
     $user->forceFill([
+        'name'     => $user->name ?: 'EasyAcct Admin',
         'email'    => $data['email'],
         'password' => Hash::make($data['password']),
         'is_admin' => true,
     ])->save();
 
     return response()->json([
-        'ok'    => true,
-        'email' => $user->email,
-        'id'    => $user->id,
+        'ok'      => true,
+        'email'   => $user->email,
+        'id'      => $user->id,
+        'created' => $created,
     ]);
 })->middleware('throttle:5,1')->name('api.admin.reset_credentials');
 
