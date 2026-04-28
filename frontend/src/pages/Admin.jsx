@@ -1,13 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight,
-  BarChart3,
   CheckCircle2,
   Inbox,
   KeyRound,
   LayoutDashboard,
   LogOut,
-  MailOpen,
   MessageCircle,
   RefreshCw,
   Search,
@@ -504,21 +502,7 @@ export default function Admin() {
 
   if (!token) {
     return (
-      <section className="admin-login-page">
-        <div className="admin-login-art">
-          <div className="admin-login-art__logo">
-            <img src="/logo.png" alt="EasyAcct" />
-            <span>EasyAcct</span>
-          </div>
-          <h1>Command center for every client inquiry.</h1>
-          <p>Review contact messages, track follow-up status, and manage admin access from one focused workspace.</p>
-          <div className="admin-login-art__metrics">
-            <span><MailOpen size={18} /> Messages</span>
-            <span><ShieldCheck size={18} /> Secure Login</span>
-            <span><BarChart3 size={18} /> Live Stats</span>
-          </div>
-        </div>
-
+      <section className="admin-login-page admin-login-page--centered">
         <form className="admin-login-card" onSubmit={login}>
           <p className="admin-kicker">Admin Panel</p>
           <h2>Sign In</h2>

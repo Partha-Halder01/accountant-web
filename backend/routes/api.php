@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 // Token-guarded ops endpoint — IONOS shared hosting has no shell, so deploys
 // trigger migrations + cache warm by GET-ing this route after upload.
 Route::get('/_admin/migrate', function (Request $request) {
-    $expected = (string) env('ADMIN_API_TOKEN', '');
+    $expected = (string) config('services.admin.api_token', '');
     $given = (string) $request->query('token', '');
     abort_if($expected === '' || ! hash_equals($expected, $given), 403);
 
@@ -34,7 +34,7 @@ Route::get('/_admin/migrate', function (Request $request) {
 // One-shot admin credential reset — token-guarded, takes ?email= and ?password=.
 // Use this to rotate the admin login without redeploying.
 Route::post('/_admin/reset-credentials', function (Request $request) {
-    $expected = (string) env('ADMIN_API_TOKEN', '');
+    $expected = (string) config('services.admin.api_token', '');
     $given = (string) $request->query('token', '');
     abort_if($expected === '' || ! hash_equals($expected, $given), 403);
 

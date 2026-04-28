@@ -15,6 +15,18 @@
   padding: 28px;
 }
 
+.admin-login-page--centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 28px;
+}
+
+.admin-login-page--centered .admin-login-card {
+  width: 100%;
+  max-width: 440px;
+}
+
 .admin-login-art {
   min-height: 500px;
   display: flex;
