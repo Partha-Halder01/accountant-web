@@ -1,20 +1,26 @@
 # EasyAcct — Apache config for IONOS shared hosting
-RewriteEngine On
+Options -MultiViews
 
-# Force HTTPS
-RewriteCond %{HTTPS} !=on
-RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+<IfModule mod_rewrite.c>
+  RewriteEngine On
 
-# Block direct access to the Laravel app folder
-RewriteRule ^_laravel(/.*)?$ - [F,L]
+  # Force HTTPS
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
 
-# SPA fallback — /api/* must reach Laravel; everything else falls back to index.html
-RewriteCond %{REQUEST_URI} !^/api(/|$)
-RewriteCond %{REQUEST_URI} !^/_laravel(/|$)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.html [L]
+  # Block direct access to the Laravel app folder
+  RewriteRule ^_laravel(/.*)?$ - [F,L]
+
+  # Let /api/* and /_laravel/* be handled by their own .htaccess / Laravel
+  RewriteRule ^api(/|$) - [L]
+  RewriteRule ^_laravel(/|$) - [L]
+
+  # SPA fallback — non-file, non-dir requests serve index.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ /index.html [L]
+</IfModule>
 
 # Long cache for hashed assets, short cache for HTML
 <IfModule mod_expires.c>
