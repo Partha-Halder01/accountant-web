@@ -45,8 +45,8 @@ export default function Admin() {
   });
   const [activeView, setActiveView] = useState('dashboard');
   const [credentials, setCredentials] = useState({
-    email: 'admin@easyacct.us',
-    password: 'ChangeMe123!',
+    email: '',
+    password: '',
   });
   const [passwordForm, setPasswordForm] = useState({
     current_password: '',
@@ -552,7 +552,6 @@ export default function Admin() {
             <ArrowRight size={18} />
           </button>
 
-          <p className="admin-login__hint">Default login: admin@easyacct.us / ChangeMe123!</p>
         </form>
       </section>
     );

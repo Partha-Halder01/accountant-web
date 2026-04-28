@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\ContactMessageController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 // Token-guarded ops endpoint — IONOS shared hosting has no shell, so deploys
@@ -28,6 +30,42 @@ Route::get('/_admin/migrate', function (Request $request) {
     return response('<pre>' . e(implode("\n", $output)) . '</pre>')
         ->header('Content-Type', 'text/html; charset=utf-8');
 })->middleware('throttle:5,1')->name('api.admin.migrate');
+
+// One-shot admin credential reset — token-guarded, takes ?email= and ?password=.
+// Use this to rotate the admin login without redeploying.
+Route::post('/_admin/reset-credentials', function (Request $request) {
+    $expected = (string) env('ADMIN_API_TOKEN', '');
+    $given = (string) $request->query('token', '');
+    abort_if($expected === '' || ! hash_equals($expected, $given), 403);
+
+    $data = $request->validate([
+        'email'    => ['required', 'email'],
+        'password' => ['required', 'string', 'min:12'],
+        'old_email' => ['nullable', 'email'],
+    ]);
+
+    $lookup = $data['old_email'] ?? $data['email'];
+    $user = User::where('email', $lookup)->first();
+    if (! $user) {
+        // Fall back to first admin user
+        $user = User::where('is_admin', true)->first();
+    }
+    if (! $user) {
+        return response()->json(['error' => 'No admin user found'], 404);
+    }
+
+    $user->forceFill([
+        'email'    => $data['email'],
+        'password' => Hash::make($data['password']),
+        'is_admin' => true,
+    ])->save();
+
+    return response()->json([
+        'ok'    => true,
+        'email' => $user->email,
+        'id'    => $user->id,
+    ]);
+})->middleware('throttle:5,1')->name('api.admin.reset_credentials');
 
 Route::post('/contact', [ContactMessageController::class, 'store'])
     ->middleware('throttle:20,1')
