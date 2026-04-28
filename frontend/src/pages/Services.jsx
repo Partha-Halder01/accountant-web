@@ -17,6 +17,7 @@ import {
   X,
   Send,
   Plane,
+  Video,
 } from 'lucide-react';
 import { services } from '../data/services';
 import { API_BASE_URL } from '../config/api';
@@ -67,7 +68,7 @@ const deliverySteps = [
   { icon: BadgeCheck, title: 'Stay Fully Handled', text: 'We complete the work, keep you updated, and make sure the final result is ready to use.' },
 ];
 
-const initialForm = { name: '', email: '', phone: '', service: '', message: '' };
+const initialForm = { name: '', email: '', phone: '', service: '', message: '', meeting_type: 'Google Meet' };
 
 function ApplyModal({ selectedService, onClose }) {
   const [form, setForm] = useState({ ...initialForm, service: selectedService || '' });
@@ -160,14 +161,36 @@ function ApplyModal({ selectedService, onClose }) {
                   <input id="modal-email" name="email" type="email" required value={form.email} onChange={onChange} placeholder="jane@example.com" />
                 </div>
 
-                <div className="modal-form-group">
-                  <label htmlFor="modal-service">Service of Interest</label>
-                  <select id="modal-service" name="service" value={form.service} onChange={onChange} required>
-                    <option value="">Select a service...</option>
-                    {services.map(s => (
-                      <option key={s.slug} value={s.title}>{s.title}</option>
-                    ))}
-                  </select>
+                <div className="modal-form-row">
+                  <div className="modal-form-group">
+                    <label htmlFor="modal-service">Service of Interest</label>
+                    <select id="modal-service" name="service" value={form.service} onChange={onChange} required>
+                      <option value="">Select a service...</option>
+                      {services.map(s => (
+                        <option key={s.slug} value={s.title}>{s.title}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="modal-form-group" style={{ marginTop: '0.5rem' }}>
+                  <label>Meeting Type</label>
+                  <div className="meeting-type-grid">
+                    <div 
+                      className={`meeting-type-card ${form.meeting_type === 'Google Meet' ? 'selected' : ''}`}
+                      onClick={() => setForm({...form, meeting_type: 'Google Meet'})}
+                    >
+                      <Video size={20} />
+                      <span>Google Meet</span>
+                    </div>
+                    <div 
+                      className={`meeting-type-card ${form.meeting_type === 'Office Visit' ? 'selected' : ''}`}
+                      onClick={() => setForm({...form, meeting_type: 'Office Visit'})}
+                    >
+                      <Building2 size={20} />
+                      <span>Office Visit</span>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="modal-form-group">

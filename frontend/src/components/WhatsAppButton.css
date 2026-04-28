@@ -145,6 +145,50 @@
   }
 }
 
+/* Meeting Type Selection */
+.meeting-type-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.meeting-type-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1.5px solid var(--ink-200);
+  border-radius: 10px;
+  cursor: pointer;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+  color: var(--ink-600);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.meeting-type-card:hover {
+  border-color: var(--ink-300);
+  background: #fff;
+}
+
+.meeting-type-card.selected {
+  border-color: var(--forest-600);
+  background: #fff;
+  color: var(--forest-950);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+}
+
+.meeting-type-card svg {
+  color: var(--ink-400);
+}
+
+.meeting-type-card.selected svg {
+  color: var(--forest-600);
+}
+
 @media (max-width: 720px) {
   .floating-actions {
     right: 16px;

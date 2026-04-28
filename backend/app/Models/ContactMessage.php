@@ -13,5 +13,6 @@ class ContactMessage extends Model
         'service',
         'message',
         'status',
+        'meeting_type',
     ];
 }

@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { FileText, Check, X, Send } from 'lucide-react';
+import { FileText, Check, X, Send, Video, Building2 } from 'lucide-react';
 import { services } from '../data/services';
 import { API_BASE_URL } from '../config/api';
 import './WhatsAppButton.css';
@@ -96,14 +97,36 @@ function EnquiryModal({ onClose }) {
                   <input id="modal-email" name="email" type="email" required value={form.email} onChange={onChange} placeholder="jane@example.com" />
                 </div>
 
-                <div className="modal-form-group">
-                  <label htmlFor="modal-service">Service of Interest</label>
-                  <select id="modal-service" name="service" value={form.service} onChange={onChange} required>
-                    <option value="">Select a service...</option>
-                    {services.map(s => (
-                      <option key={s.slug} value={s.title}>{s.title}</option>
-                    ))}
-                  </select>
+                <div className="modal-form-row">
+                  <div className="modal-form-group">
+                    <label htmlFor="modal-service">Service of Interest</label>
+                    <select id="modal-service" name="service" value={form.service} onChange={onChange} required>
+                      <option value="">Select a service...</option>
+                      {services.map(s => (
+                        <option key={s.slug} value={s.title}>{s.title}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                
+                <div className="modal-form-group" style={{ marginTop: '0.5rem' }}>
+                  <label>Meeting Type</label>
+                  <div className="meeting-type-grid">
+                    <div 
+                      className={`meeting-type-card ${form.meeting_type === 'Google Meet' ? 'selected' : ''}`}
+                      onClick={() => setForm({...form, meeting_type: 'Google Meet'})}
+                    >
+                      <Video size={20} />
+                      <span>Google Meet</span>
+                    </div>
+                    <div 
+                      className={`meeting-type-card ${form.meeting_type === 'Office Visit' ? 'selected' : ''}`}
+                      onClick={() => setForm({...form, meeting_type: 'Office Visit'})}
+                    >
+                      <Building2 size={20} />
+                      <span>Office Visit</span>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="modal-form-group">
@@ -135,16 +158,16 @@ export default function WhatsAppButton({ number = defaultWhatsAppNumber }) {
   return (
     <>
       <div className="floating-actions">
-        <button 
+        <Link 
+          to="/booking"
           className="enquiry-float" 
-          onClick={() => setIsModalOpen(true)}
-          aria-label="Open Enquiry Form"
-          data-tooltip="Enquiry Form"
+          aria-label="Open Booking Form"
+          data-tooltip="Book Appointment"
         >
           <span className="enquiry-float__icon" aria-hidden="true">
             <FileText size={24} strokeWidth={2.2} />
           </span>
-        </button>
+        </Link>
 
         {normalizedNumber && (
           <a

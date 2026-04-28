@@ -501,7 +501,7 @@ export default function Home() {
 
             <div className="hero__actions">
               <Link to="/contact" className="hero__btn-primary">
-                Book a Free Consult <ArrowRight size={18} />
+                Make an appointment <ArrowRight size={18} />
               </Link>
               <Link to="/services" className="hero__btn-ghost">
                 Our Services <ChevronRight size={16} />

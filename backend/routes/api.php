@@ -37,6 +37,13 @@ Route::get('/settings/public', [AdminController::class, 'publicSettings'])
     ->middleware('throttle:120,1')
     ->name('api.settings.public');
 
+Route::post('/appointments', [\App\Http\Controllers\AppointmentController::class, 'store'])
+    ->middleware('throttle:10,1')
+    ->name('api.appointments.store');
+
+Route::get('/appointments/blocked-dates', [\App\Http\Controllers\AppointmentController::class, 'blockedDates'])
+    ->name('api.appointments.blocked-dates');
+
 Route::prefix('admin')->name('api.admin.')->group(function () {
     Route::post('/login', [AdminController::class, 'login'])
         ->middleware('throttle:5,1')
@@ -47,4 +54,15 @@ Route::prefix('admin')->name('api.admin.')->group(function () {
     Route::patch('/settings', [AdminController::class, 'updateSettings'])->name('settings.update');
     Route::patch('/messages/{contactMessage}/status', [AdminController::class, 'updateMessageStatus'])->name('messages.status');
     Route::patch('/password', [AdminController::class, 'changePassword'])->name('password');
+
+    // Appointments Admin
+    Route::get('/appointments', [\App\Http\Controllers\Admin\AdminAppointmentController::class, 'index']);
+    Route::patch('/appointments/{id}/status', [\App\Http\Controllers\Admin\AdminAppointmentController::class, 'updateStatus']);
+    Route::delete('/appointments/{id}', [\App\Http\Controllers\Admin\AdminAppointmentController::class, 'destroy']);
+    
+    // Blocked Dates Admin
+    Route::get('/blocked-dates', [\App\Http\Controllers\Admin\AdminAppointmentController::class, 'blockedDates']);
+    Route::post('/weekly-off-days', [\App\Http\Controllers\Admin\AdminAppointmentController::class, 'updateWeeklyOffDays']);
+    Route::post('/blocked-dates', [\App\Http\Controllers\Admin\AdminAppointmentController::class, 'storeBlockedDate']);
+    Route::delete('/blocked-dates/{id}', [\App\Http\Controllers\Admin\AdminAppointmentController::class, 'destroyBlockedDate']);
 });

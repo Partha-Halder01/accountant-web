@@ -55,7 +55,12 @@ export default function Footer() {
       </div>
       <div className="footer__bottom container">
         <span>© {new Date().getFullYear()} EasyAcct. All rights reserved.</span>
-        <span>Mohammed Mostafa · Accountant</span>
+        <div className="footer__bottom-right">
+          <span className="footer__bottom-name">Mohammed Mostafa · Accountant</span>
+          <span className="footer__developer">
+            Developed By <a href="https://tech2india.com/" target="_blank" rel="noopener noreferrer">Tech2india</a>
+          </span>
+        </div>
       </div>
     </footer>
   );

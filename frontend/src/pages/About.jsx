@@ -278,7 +278,7 @@ export default function About() {
             <article className="leader-card reveal-left">
               <div className="leader-card__img-wrap">
                 <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=700&q=80"
+                  src="/owner.jpeg"
                   alt="Mohammed Mostafa"
                   className="leader-card__img"
                 />

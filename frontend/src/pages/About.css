@@ -354,13 +354,13 @@
 }
 .leader-card__img-wrap {
   position: relative;
-  height: 360px;
+  /* Remove fixed height to show full image naturally */
   overflow: hidden;
 }
 .leader-card__img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  display: block;
   transition: transform 0.6s var(--ease);
 }
 .leader-card:hover .leader-card__img { transform: scale(1.06); }
@@ -711,7 +711,7 @@
   .about-cta {
     padding: 6rem 0;
   }
-  .leader-card__img-wrap { height: 280px; }
+  /* .leader-card__img-wrap { height: 280px; } */
 
   /* Prevent horizontal overflow on mobile */
   .about-header,

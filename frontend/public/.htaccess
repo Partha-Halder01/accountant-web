@@ -6,45 +6,10 @@ RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Serve pre-compressed Brotli when client accepts it
-<IfModule mod_rewrite.c>
-  RewriteCond %{HTTP:Accept-Encoding} br
-  RewriteCond %{REQUEST_FILENAME}.br -s
-  RewriteRule ^(.+) $1.br [L]
-
-  RewriteCond %{HTTP:Accept-Encoding} gzip
-  RewriteCond %{REQUEST_FILENAME}.gz -s
-  RewriteRule ^(.+) $1.gz [L]
-</IfModule>
-
-<FilesMatch "\.(js|css|svg|html|json|xml)\.br$">
-  <IfModule mod_headers.c>
-    Header set Content-Encoding br
-    Header append Vary Accept-Encoding
-  </IfModule>
-  AddType application/javascript .br
-</FilesMatch>
-<FilesMatch "\.(js|css|svg|html|json|xml)\.gz$">
-  <IfModule mod_headers.c>
-    Header set Content-Encoding gzip
-    Header append Vary Accept-Encoding
-  </IfModule>
-  AddType application/javascript .gz
-</FilesMatch>
-
-# Make sure the right Content-Type is sent for the precompressed assets
-<Files *.js.br>      ForceType application/javascript </Files>
-<Files *.css.br>     ForceType text/css </Files>
-<Files *.svg.br>     ForceType image/svg+xml </Files>
-<Files *.js.gz>      ForceType application/javascript </Files>
-<Files *.css.gz>     ForceType text/css </Files>
-<Files *.svg.gz>     ForceType image/svg+xml </Files>
-
 # Block direct access to the Laravel app folder
 RewriteRule ^_laravel(/.*)?$ - [F,L]
 
-# SPA fallback — serve pre-rendered files first; fall back to index.html.
-# /api/* must reach Laravel (handled by /api/.htaccess), and /_laravel/* is denied above.
+# SPA fallback — /api/* must reach Laravel; everything else falls back to index.html
 RewriteCond %{REQUEST_URI} !^/api(/|$)
 RewriteCond %{REQUEST_URI} !^/_laravel(/|$)
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -62,31 +27,10 @@ RewriteRule ^ index.html [L]
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType font/woff2             "access plus 1 year"
   ExpiresByType text/html              "access plus 5 minutes"
-  ExpiresByType application/xml        "access plus 1 day"
-  ExpiresByType text/plain             "access plus 1 day"
 </IfModule>
 
 <IfModule mod_headers.c>
-  <FilesMatch "\.(js|css|woff2|webp|jpg|jpeg|png|svg)$">
-    Header set Cache-Control "public, max-age=31536000, immutable"
-  </FilesMatch>
-  <FilesMatch "\.html$">
-    Header set Cache-Control "public, max-age=300, must-revalidate"
-  </FilesMatch>
-
-  # Security headers
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
-  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
-  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
   Header set X-Frame-Options "SAMEORIGIN"
 </IfModule>
-
-# Disable directory listing
-Options -Indexes
-
-# Disable ETag (use Cache-Control instead — saves CPU on shared hosting)
-<IfModule mod_headers.c>
-  Header unset ETag
-</IfModule>
-FileETag None

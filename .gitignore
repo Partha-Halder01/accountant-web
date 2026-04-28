@@ -26,6 +26,12 @@ backend/database/*.sqlite
 stage/
 _laravel/
 
+# Local SFTP scripts and diagnostic helpers (never commit)
+_sftp-*.txt
+deploy/api/_diag.php
+deploy/api/_debug.php
+UPLOAD-TO-SERVER.env
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

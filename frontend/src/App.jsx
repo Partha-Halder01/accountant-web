@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Services from './pages/Services';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Booking from './pages/Booking';
 import { API_BASE_URL } from './config/api';
 
 const Admin = lazy(() => import('./pages/Admin'));
@@ -87,6 +88,7 @@ function AppLayout() {
           <Route path="/services" element={<Services />} />
           <Route path="/about"    element={<About />} />
           <Route path="/contact"  element={<Contact whatsappNumber={siteSettings.whatsapp_number} />} />
+          <Route path="/booking"  element={<Booking />} />
           <Route path="/admin"    element={<Suspense fallback={<div style={{padding:'2rem',textAlign:'center'}}>Loading…</div>}><Admin /></Suspense>} />
         </Routes>
       </main>

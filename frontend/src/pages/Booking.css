@@ -1,0 +1,377 @@
+/* Booking.css */
+.booking-page {
+  padding-top: 120px;
+  min-height: calc(100vh - 200px);
+  background: var(--cream-100);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-bottom: 4rem;
+}
+
+.booking-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 1rem;
+  padding: 2.5rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.booking-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.booking-header h1 {
+  font-family: var(--font-display);
+  color: var(--forest-950);
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.booking-header p {
+  color: var(--ink-500);
+  font-size: 1.1rem;
+}
+
+/* Progress Indicator */
+.booking-progress {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.progress-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ink-200);
+  transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+  background: var(--gold-400);
+  transform: scale(1.2);
+}
+
+.booking-step-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  color: var(--forest-900);
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--gold-200);
+}
+
+/* Staff Selection */
+.staff-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.staff-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 1rem;
+  border: 2px solid var(--ink-200);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.staff-card:hover {
+  border-color: var(--gold-400);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.staff-card.selected {
+  border-color: var(--forest-700);
+  background: var(--forest-50);
+}
+
+.staff-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--gold-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.staff-card strong {
+  font-size: 1.1rem;
+  color: var(--forest-900);
+}
+
+/* Date & Time */
+.datetime-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .datetime-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.calendar-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1.5px solid var(--ink-200);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--ink-900);
+  background: #f8fafc;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.calendar-input:focus {
+  border-color: var(--forest-600);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  display: block;
+  width: 100%;
+}
+
+.react-datepicker {
+  font-family: var(--font-body);
+  border: 1px solid var(--ink-200);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.time-grid::-webkit-scrollbar {
+  width: 6px;
+}
+.time-grid::-webkit-scrollbar-track {
+  background: var(--cream-100);
+  border-radius: 4px;
+}
+.time-grid::-webkit-scrollbar-thumb {
+  background: var(--gold-400);
+  border-radius: 4px;
+}
+
+.time-slot {
+  padding: 0.75rem;
+  text-align: center;
+  border: 2px solid var(--ink-200);
+  border-radius: 8px;
+  cursor: pointer;
+  background: #fff;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.time-slot:hover {
+  border-color: var(--gold-400);
+  color: var(--forest-900);
+}
+
+.time-slot.selected {
+  background: var(--forest-700);
+  color: #fff;
+  border-color: var(--forest-700);
+}
+
+/* Form */
+.booking-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-group-full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 600px) {
+  .booking-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--forest-900);
+  font-size: 0.95rem;
+}
+
+.form-group input {
+  padding: 1rem;
+  border: 2px solid var(--ink-200);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--gold-400);
+  box-shadow: 0 0 0 3px var(--gold-100);
+}
+
+.form-group input[type="file"] {
+  padding: 0.75rem;
+  background: var(--cream-100);
+  cursor: pointer;
+}
+
+/* Navigation */
+.booking-nav {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ink-200);
+}
+
+/* Meeting Type Selection */
+.meeting-type-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.meeting-type-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 1.5px solid var(--ink-200);
+  border-radius: 10px;
+  cursor: pointer;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+  color: var(--ink-600);
+  font-weight: 600;
+}
+
+.meeting-type-card:hover {
+  border-color: var(--ink-300);
+  background: #fff;
+}
+
+.meeting-type-card.selected {
+  border-color: var(--forest-600);
+  background: #fff;
+  color: var(--forest-950);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+}
+
+.meeting-type-card svg {
+  color: var(--ink-400);
+  transition: all 0.2s ease;
+}
+
+.meeting-type-card.selected svg {
+  color: var(--forest-600);
+}
+
+@media (max-width: 600px) {
+  .meeting-type-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.btn-primary {
+  padding: 0.875rem 2rem;
+  background: var(--forest-700);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--forest-900);
+  transform: translateY(-1px);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  padding: 0.875rem 2rem;
+  background: var(--ink-100);
+  color: var(--ink-800);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+  background: var(--ink-200);
+}
+
+/* Confirmation */
+.confirmation-map {
+  margin-top: 2.5rem;
+  width: 100%;
+  height: 350px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 4px solid var(--cream-100);
+}
+
+@media (max-width: 600px) {
+  .booking-container {
+    padding: 1.5rem;
+  }
+  .booking-header h1 {
+    font-size: 2rem;
+  }
+}
+

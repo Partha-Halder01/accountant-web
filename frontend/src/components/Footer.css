@@ -188,8 +188,34 @@
   color: rgba(255, 255, 255, .45);
 }
 
-.footer__bottom span:last-child {
+.footer__bottom-name {
   font-family: var(--font-display);
   font-style: italic;
   color: rgba(255, 255, 255, .55);
+}
+
+.footer__bottom-right {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer__developer {
+  display: flex;
+  align-items: center;
+}
+
+.footer__developer a {
+  display: inline-block !important;
+  margin-left: 5px;
+  margin-bottom: 0 !important;
+  color: var(--gold-400) !important;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer__developer a:hover {
+  text-decoration: underline;
+  transform: none !important;
 }

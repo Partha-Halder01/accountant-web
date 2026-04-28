@@ -18,6 +18,7 @@ class ContactMessageController extends Controller
             'phone' => ['required', 'string', 'max:30'],
             'service' => ['nullable', 'string', 'max:255'],
             'message' => ['required', 'string', 'max:5000'],
+            'meeting_type' => ['nullable', 'string', 'max:255'],
         ]);
 
         $contactMessage = ContactMessage::create([
