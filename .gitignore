@@ -28,9 +28,11 @@ _laravel/
 
 # Local SFTP scripts and diagnostic helpers (never commit)
 _sftp-*.txt
+_server-*.txt
 deploy/api/_diag.php
 deploy/api/_debug.php
 UPLOAD-TO-SERVER.env
+.claude/
 
 # Editor directories and files
 .vscode/*

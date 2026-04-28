@@ -8,10 +8,33 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
+// Resolve the admin API token. Prefer config (cached, fast) but fall back to
+// reading the .env file directly — necessary on shared hosting after a deploy
+// where bootstrap/cache/config.php was built BEFORE services.admin existed.
+$adminApiToken = static function (): string {
+    static $cached = null;
+    if ($cached !== null) {
+        return $cached;
+    }
+    $fromConfig = (string) config('services.admin.api_token', '');
+    if ($fromConfig !== '') {
+        return $cached = $fromConfig;
+    }
+    $envFile = base_path('.env');
+    if (is_readable($envFile)) {
+        foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+            if (preg_match('/^\s*ADMIN_API_TOKEN\s*=\s*(.+?)\s*$/', $line, $m)) {
+                return $cached = trim($m[1], "\"'");
+            }
+        }
+    }
+    return $cached = '';
+};
+
 // Token-guarded ops endpoint — IONOS shared hosting has no shell, so deploys
 // trigger migrations + cache warm by GET-ing this route after upload.
-Route::get('/_admin/migrate', function (Request $request) {
-    $expected = (string) config('services.admin.api_token', '');
+Route::get('/_admin/migrate', function (Request $request) use ($adminApiToken) {
+    $expected = $adminApiToken();
     $given = (string) $request->query('token', '');
     abort_if($expected === '' || ! hash_equals($expected, $given), 403);
 
@@ -33,8 +56,8 @@ Route::get('/_admin/migrate', function (Request $request) {
 
 // One-shot admin credential reset — token-guarded, takes ?email= and ?password=.
 // Use this to rotate the admin login without redeploying.
-Route::post('/_admin/reset-credentials', function (Request $request) {
-    $expected = (string) config('services.admin.api_token', '');
+Route::post('/_admin/reset-credentials', function (Request $request) use ($adminApiToken) {
+    $expected = $adminApiToken();
     $given = (string) $request->query('token', '');
     abort_if($expected === '' || ! hash_equals($expected, $given), 403);
 
