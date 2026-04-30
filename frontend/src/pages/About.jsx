@@ -283,10 +283,7 @@ export default function About() {
                   className="leader-card__img"
                 />
                 <div className="leader-card__overlay">
-                  <div className="leader-card__overlay-tag">
-                    <Shield size={14} />
-                    <span>CPA Certified</span>
-                  </div>
+                  
                 </div>
               </div>
               <div className="leader-card__body">
@@ -318,7 +315,7 @@ export default function About() {
                 {[
                   { label: 'Licensed CPA', sub: 'All 50 States' },
                   { label: 'IRS Enrolled Agent', sub: 'Federal Representation' },
-                  { label: 'MBA Finance', sub: 'Harvard Extension School' },
+                  { label: 'Master of Commerce in Accounting', sub: '' },
                 ].map(c => (
                   <div className="leader-cred" key={c.label}>
                     <CheckCircle2 size={18} className="leader-cred__icon" />

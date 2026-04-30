@@ -8,24 +8,24 @@ import './Booking.css';
 const STAFF_OPTIONS = [
   { id: 'any', name: 'Any staff', initial: 'Any' },
   { id: 'abusayed', name: 'Abusayed', initial: 'Ab' },
-  { id: 'mostafa', name: 'MG Mostafa', initial: 'MG' }
+  { id: 'mostafa', name: 'MG Mostafa', initial: 'MG', img: '/owner.jpeg' }
 ];
 
 const TIME_SLOTS = [
-  '09:00', '09:15', '09:30', '09:45',
-  '10:00', '10:15', '10:30', '10:45',
   '11:00', '11:15', '11:30', '11:45',
   '12:00', '12:15', '12:30', '12:45',
   '13:00', '13:15', '13:30', '13:45',
   '14:00', '14:15', '14:30', '14:45',
   '15:00', '15:15', '15:30', '15:45',
   '16:00', '16:15', '16:30', '16:45',
+  '17:00',
 ];
 
 export default function Booking() {
   const [step, setStep] = useState(1);
   const [blockedDates, setBlockedDates] = useState([]);
   const [weeklyOffDays, setWeeklyOffDays] = useState([]);
+  const [bookedTimes, setBookedTimes] = useState({});
   
   const [formData, setFormData] = useState({
     staff_name: 'Any staff',
@@ -35,6 +35,7 @@ export default function Booking() {
     last_name: '',
     email: '',
     phone: '',
+    purpose: '',
     meeting_type: 'Google Meet',
     file: null
   });
@@ -54,12 +55,21 @@ export default function Booking() {
         if (data.weekly_off_days) {
           setWeeklyOffDays(data.weekly_off_days);
         }
+        if (data.booked_times) {
+          setBookedTimes(data.booked_times);
+        }
       })
       .catch(err => console.error('Failed to fetch blocked dates', err));
   }, []);
 
-  const handleNext = () => setStep(prev => prev + 1);
-  const handleBack = () => setStep(prev => prev - 1);
+  const handleNext = () => {
+    setStep(prev => prev + 1);
+    window.scrollTo(0, 0);
+  };
+  const handleBack = () => {
+    setStep(prev => prev - 1);
+    window.scrollTo(0, 0);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -127,7 +137,11 @@ export default function Booking() {
                   className={`staff-card ${formData.staff_name === staff.name ? 'selected' : ''}`}
                   onClick={() => setFormData({...formData, staff_name: staff.name})}
                 >
-                  <div className="staff-avatar">{staff.initial}</div>
+                  {staff.img ? (
+                    <img src={staff.img} alt={staff.name} className="staff-avatar-img" />
+                  ) : (
+                    <div className="staff-avatar">{staff.initial}</div>
+                  )}
                   <div>
                     <strong>{staff.name}</strong>
                   </div>
@@ -186,15 +200,24 @@ export default function Booking() {
                 <label style={{display:'block', marginBottom:'0.5rem', fontWeight:'bold'}}>Time</label>
                 {formData.appointment_date ? (
                   <div className="time-grid">
-                    {TIME_SLOTS.map(time => (
-                      <div 
-                        key={time}
-                        className={`time-slot ${formData.appointment_time === time ? 'selected' : ''}`}
-                        onClick={() => setFormData({...formData, appointment_time: time})}
-                      >
-                        {time}
-                      </div>
-                    ))}
+                    {TIME_SLOTS.map(time => {
+                      const isBooked = bookedTimes[formData.appointment_date]?.includes(time);
+                      return (
+                        <div 
+                          key={time}
+                          className={`time-slot ${formData.appointment_time === time ? 'selected' : ''} ${isBooked ? 'booked' : ''}`}
+                          onClick={() => {
+                            if (!isBooked) {
+                              setFormData({...formData, appointment_time: time});
+                            }
+                          }}
+                          title={isBooked ? "This time is already booked" : ""}
+                          style={isBooked ? { opacity: 0.5, cursor: 'not-allowed', backgroundColor: '#e2e8f0', color: '#64748b' } : {}}
+                        >
+                          {time}
+                        </div>
+                      );
+                    })}
                   </div>
                 ) : (
                   <p style={{color: 'var(--ink-500)'}}>Please select a date first.</p>
@@ -251,6 +274,17 @@ export default function Booking() {
                   type="tel" 
                   value={formData.phone}
                   onChange={e => setFormData({...formData, phone: e.target.value})}
+                />
+              </div>
+              <div className="form-group form-group-full">
+                <label>Purpose of Appointment</label>
+                <textarea 
+                  required
+                  rows="3"
+                  value={formData.purpose}
+                  onChange={e => setFormData({...formData, purpose: e.target.value})}
+                  placeholder="E.g., Discuss individual tax return, consultation for new business..."
+                  style={{ resize: 'vertical' }}
                 />
               </div>
               <div className="form-group form-group-full">

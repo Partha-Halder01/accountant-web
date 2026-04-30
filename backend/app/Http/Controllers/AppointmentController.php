@@ -18,6 +18,7 @@ class AppointmentController extends Controller
             'last_name' => 'nullable|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:20',
+            'purpose' => 'required|string|max:1000',
             'meeting_type' => 'nullable|string|max:255',
             'file' => 'nullable|file|max:10240', // max 10MB
         ]);
@@ -57,9 +58,27 @@ class AppointmentController extends Controller
         $blocked = BlockedDate::where('date', '>=', date('Y-m-d'))->pluck('date');
         $weeklyOff = \App\Models\SiteSetting::where('key', 'weekly_off_days')->value('value');
         $weeklyOffDays = $weeklyOff ? json_decode($weeklyOff, true) : [];
+        
+        $booked = Appointment::where('appointment_date', '>=', date('Y-m-d'))
+            ->where('status', '!=', 'canceled')
+            ->get(['appointment_date', 'appointment_time']);
+            
+        $bookedTimes = [];
+        foreach ($booked as $b) {
+            $date = $b->appointment_date;
+            $time = $b->appointment_time;
+            if (!isset($bookedTimes[$date])) {
+                $bookedTimes[$date] = [];
+            }
+            if (!in_array($time, $bookedTimes[$date])) {
+                $bookedTimes[$date][] = $time;
+            }
+        }
+
         return response()->json([
             'blocked_dates' => $blocked,
-            'weekly_off_days' => $weeklyOffDays
+            'weekly_off_days' => $weeklyOffDays,
+            'booked_times' => $bookedTimes
         ]);
     }
 }

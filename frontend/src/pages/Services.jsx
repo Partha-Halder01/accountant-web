@@ -343,7 +343,7 @@ export default function Services() {
                         className="srv-apply-btn"
                         onClick={() => openModal(service.title)}
                       >
-                        Apply Now <ArrowRight size={15} />
+                        Book Appointment <ArrowRight size={15} />
                       </button>
                     </div>
                   </div>

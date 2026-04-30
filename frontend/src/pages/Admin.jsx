@@ -873,6 +873,12 @@ export default function Admin() {
                           <dd>{selectedAppointment.meeting_type}</dd>
                         </div>
                       )}
+                      {selectedAppointment.purpose && (
+                        <div>
+                          <dt>Purpose</dt>
+                          <dd style={{ whiteSpace: 'pre-wrap' }}>{selectedAppointment.purpose}</dd>
+                        </div>
+                      )}
                       <div>
                         <dt>Email</dt>
                         <dd><a href={`mailto:${selectedAppointment.email}`}>{selectedAppointment.email}</a></dd>

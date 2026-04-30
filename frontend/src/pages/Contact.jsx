@@ -262,6 +262,7 @@ export default function Contact({ whatsappNumber = '+1 (617) 412-8999' }) {
                         <option value="Business Tax Return">Business Tax Return</option>
                         <option value="Payroll and Bookkeeping">Payroll and Bookkeeping</option>
                         <option value="New Business Registration">New Business Registration</option>
+                        <option value="Immigration Services">Immigration Services</option>
                       </select>
                     </div>
 
@@ -282,9 +283,7 @@ export default function Contact({ whatsappNumber = '+1 (617) 412-8999' }) {
                       {isSubmitting ? 'Sending...' : 'Send Secure Message'}
                       <Send size={18} />
                     </button>
-                    <p className="form-status">
-                      Backend endpoint: <span>{API_BASE_URL}/api/contact</span>
-                    </p>
+
                   </>
                 )}
               </form>

@@ -896,11 +896,7 @@ export default function Home() {
                 ))}
               </div>
 
-              <span className="tshowcase__hint">
-                {testimonialsPaused
-                  ? 'Paused while you read'
-                  : 'Auto-rotating every 4.2 seconds'}
-              </span>
+
             </div>
           </div>
         </div>
