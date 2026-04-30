@@ -33,7 +33,7 @@ export default function Footer() {
           <Link to="/">Home</Link>
           <Link to="/about">About Us</Link>
           <Link to="/services">Services</Link>
-          <Link to="/contact">Contact</Link>
+          <Link to="/contact">Contact Us</Link>
         </div>
 
         <div>
@@ -51,6 +51,7 @@ export default function Footer() {
           <p className="footer__contact"><MapPin size={16}/> 43 High St, 2nd Floor, Medford, MA 02155</p>
           <p className="footer__contact"><Phone size={16}/> 617-412-8999</p>
           <p className="footer__contact"><Mail size={16}/> info@easyacct.us</p>
+          <p className="footer__socials-label">Let&apos;s socialize!</p>
           <div className="footer__socials">
             <a href="#" aria-label="Facebook" className="footer__social-link">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

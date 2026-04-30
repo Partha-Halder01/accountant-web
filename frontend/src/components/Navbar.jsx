@@ -30,8 +30,8 @@ export default function Navbar() {
   const navLinks = [
     { to: '/', label: 'Home', icon: Home, end: true },
     { to: '/services', label: 'Services', icon: Briefcase },
-    { to: '/about', label: 'About', icon: Info },
-    { to: '/contact', label: 'Contact', icon: Mail },
+    { to: '/about', label: 'About Us', icon: Info },
+    { to: '/contact', label: 'Contact Us', icon: Mail },
   ];
 
   return (
