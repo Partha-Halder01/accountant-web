@@ -36,7 +36,7 @@ jobs:
         working-directory: frontend
         run: npm run build
         env:
-          VITE_API_BASE_URL: https://bengalpreneur.com
+          VITE_API_BASE_URL: https://easyacct.us
 
       # ── Backend build ─────────────────────────────────────────────────
       - uses: shivammathur/setup-php@v2
@@ -108,13 +108,6 @@ jobs:
             -e "ssh -i ~/.ssh/deploy_key -p 65002 -o StrictHostKeyChecking=no" \
             stage/api/ \
             u841016234@145.79.28.98:~/public_html/api/
-
-      - name: Upload root .htaccess
-        run: |
-          rsync -az --no-perms \
-            -e "ssh -i ~/.ssh/deploy_key -p 65002 -o StrictHostKeyChecking=no" \
-            _server-htaccess.txt \
-            u841016234@145.79.28.98:~/public_html/.htaccess
 
       # ── Fix permissions + run migrations via SSH ──────────────────────
       - name: Fix storage permissions & run migrations
