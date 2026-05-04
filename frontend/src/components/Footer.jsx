@@ -53,7 +53,7 @@ export default function Footer() {
           <p className="footer__contact"><Mail size={16}/> info@easyacct.us</p>
           <p className="footer__socials-label">Let&apos;s socialize!</p>
           <div className="footer__socials">
-            <a href="#" aria-label="Facebook" className="footer__social-link">
+            <a href="https://www.facebook.com/share/192UmQutPv/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="footer__social-link">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
               </svg>

@@ -500,9 +500,14 @@ export default function Home() {
             </p>
 
             <div className="hero__actions">
-              <Link to="/contact" className="hero__btn-primary">
+              <a
+                href="https://app.squareup.com/appointments/book/mtcdqrglth6jhv/JAFWS1S1AE48W/start"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero__btn-primary"
+              >
                 Make an appointment <ArrowRight size={18} />
-              </Link>
+              </a>
               <Link to="/services" className="hero__btn-ghost">
                 Our Services <ChevronRight size={16} />
               </Link>
