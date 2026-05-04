@@ -1,4 +1,4 @@
-name: Deploy to Hostinger
+name: Deploy to IONOS
 
 on:
   push:
@@ -13,11 +13,14 @@ jobs:
   deploy:
     name: Build & deploy
     runs-on: ubuntu-latest
-
+    env:
+      SFTP_HOST: ${{ secrets.IONOS_SFTP_HOST }}
+      SFTP_USER: ${{ secrets.IONOS_SFTP_USER }}
+      SFTP_PASS: ${{ secrets.IONOS_SFTP_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
 
-      # ── Frontend build ────────────────────────────────────────────────
+      # ── Frontend build ───────────────────────────────────────────────
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -38,7 +41,7 @@ jobs:
         env:
           VITE_API_BASE_URL: https://easyacct.us
 
-      # ── Backend build ─────────────────────────────────────────────────
+      # ── Backend build ────────────────────────────────────────────────
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
@@ -50,7 +53,7 @@ jobs:
         working-directory: backend
         run: composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress
 
-      # ── Stage server tree ─────────────────────────────────────────────
+      # ── Stage server tree ────────────────────────────────────────────
       - name: Stage server tree
         run: |
           set -euo pipefail
@@ -77,51 +80,38 @@ jobs:
           touch stage/_laravel/storage/logs/.gitkeep
           cp -r deploy/api/. stage/api/
 
-      # ── Set up SSH key ────────────────────────────────────────────────
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p 65002 145.79.28.98 >> ~/.ssh/known_hosts 2>/dev/null
+      # ── SFTP upload via lftp (handles dotfiles correctly) ────────────
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
-      # ── Upload via rsync over SSH ─────────────────────────────────────
-      - name: Upload frontend → public_html/
+      - name: Upload via SFTP
         run: |
-          rsync -az --no-perms --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p 65002 -o StrictHostKeyChecking=no" \
-            --exclude='_laravel/' --exclude='api/' \
-            frontend/dist/ \
-            u841016234@145.79.28.98:~/public_html/
+          set -euo pipefail
+          cat > .lftp-script <<'LFTPEOF'
+          set sftp:auto-confirm yes
+          set net:max-retries 3
+          set net:reconnect-interval-base 5
+          set xfer:clobber on
+          # Frontend → /
+          mirror -R -v --no-perms --parallel=4 \
+            --exclude-glob '_laravel/' --exclude-glob 'api/' \
+            frontend/dist/ /
+          # Backend Laravel app → /_laravel
+          mirror -R -v --no-perms --parallel=4 --delete \
+            --exclude-glob '.env' \
+            stage/_laravel/ /_laravel/
+          # Custom Laravel front controller → /api
+          mirror -R -v --no-perms --parallel=4 --delete \
+            stage/api/ /api/
+          bye
+          LFTPEOF
+          lftp -u "$SFTP_USER","$SFTP_PASS" -e "source .lftp-script" "sftp://$SFTP_HOST"
 
-      - name: Upload Laravel → public_html/_laravel/
+      # ── Run migrations + cache warm via HTTPS endpoint ───────────────
+      - name: Run migrations + cache warm
         run: |
-          rsync -az --no-perms --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p 65002 -o StrictHostKeyChecking=no" \
-            --exclude='.env' \
-            stage/_laravel/ \
-            u841016234@145.79.28.98:~/public_html/_laravel/
-
-      - name: Upload API front controller → public_html/api/
-        run: |
-          rsync -az --no-perms --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p 65002 -o StrictHostKeyChecking=no" \
-            stage/api/ \
-            u841016234@145.79.28.98:~/public_html/api/
-
-      # ── Fix permissions + run migrations via SSH ──────────────────────
-      - name: Fix storage permissions & run migrations
-        run: |
-          ssh -i ~/.ssh/deploy_key -p 65002 -o StrictHostKeyChecking=no \
-            u841016234@145.79.28.98 << 'ENDSSH'
-            set -e
-            DOCROOT=~/public_html
-            chmod -R 775 $DOCROOT/_laravel/storage
-            chmod -R 775 $DOCROOT/_laravel/bootstrap/cache
-            cd $DOCROOT/_laravel
-            php artisan config:clear
-            php artisan migrate --force
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
-          ENDSSH
+          set -e
+          echo "Calling /api/_admin/migrate..."
+          curl --fail --silent --show-error \
+            "https://easyacct.us/api/_admin/migrate?token=${{ secrets.ADMIN_API_TOKEN }}" \
+            | tee migrate.out
