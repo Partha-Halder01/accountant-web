@@ -935,9 +935,14 @@ export default function Home() {
           </div>
 
           <div className="cta__btns">
-            <Link to="/contact" className="cta__btn-primary">
+            <a
+              href="https://app.squareup.com/appointments/book/mtcdqrglth6jhv/JAFWS1S1AE48W/start"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta__btn-primary"
+            >
               <PhoneCall size={16} /> Get Started Today
-            </Link>
+            </a>
             <Link to="/services" className="cta__ghost">
               Explore Services <ArrowRight size={15} />
             </Link>

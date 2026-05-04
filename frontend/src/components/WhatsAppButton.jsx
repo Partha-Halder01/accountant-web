@@ -158,16 +158,18 @@ export default function WhatsAppButton({ number = defaultWhatsAppNumber }) {
   return (
     <>
       <div className="floating-actions">
-        <Link 
-          to="/booking"
-          className="enquiry-float" 
+        <a
+          href="https://app.squareup.com/appointments/book/mtcdqrglth6jhv/JAFWS1S1AE48W/start"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="enquiry-float"
           aria-label="Open Booking Form"
           data-tooltip="Book Appointment"
         >
           <span className="enquiry-float__icon" aria-hidden="true">
             <FileText size={24} strokeWidth={2.2} />
           </span>
-        </Link>
+        </a>
 
         {normalizedNumber && (
           <a

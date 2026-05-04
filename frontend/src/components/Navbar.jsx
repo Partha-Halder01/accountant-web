@@ -74,10 +74,16 @@ export default function Navbar() {
           </nav>
 
           <div className="nav__actions">
-            <Link to="/contact" className="nav__cta" onClick={close}>
+            <a
+              href="https://app.squareup.com/appointments/book/mtcdqrglth6jhv/JAFWS1S1AE48W/start"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav__cta"
+              onClick={close}
+            >
               <PhoneCall size={16} strokeWidth={2.3} />
               <span>Get a Consult</span>
-            </Link>
+            </a>
 
             <button
               type="button"

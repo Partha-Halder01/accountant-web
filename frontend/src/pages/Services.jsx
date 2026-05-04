@@ -339,12 +339,14 @@ export default function Services() {
                     </ul>
 
                     <div className="srv-card__footer">
-                      <button
+                      <a
+                        href="https://app.squareup.com/appointments/book/mtcdqrglth6jhv/JAFWS1S1AE48W/start"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="srv-apply-btn"
-                        onClick={() => openModal(service.title)}
                       >
                         Book Appointment <ArrowRight size={15} />
-                      </button>
+                      </a>
                     </div>
                   </div>
 

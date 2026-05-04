@@ -340,9 +340,14 @@ export default function About() {
           <h2 className="about-cta__h2">Let's build your financial story together.</h2>
           <p className="about-cta__p">Every great outcome starts with a conversation. Let's talk about your goals today.</p>
           <div className="about-cta__actions">
-            <Link to="/contact" className="cta-btn-primary">
+            <a
+              href="https://app.squareup.com/appointments/book/mtcdqrglth6jhv/JAFWS1S1AE48W/start"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-btn-primary"
+            >
               Schedule a Call <ArrowRight size={18} />
-            </Link>
+            </a>
             <Link to="/services" className="cta-btn-ghost">
               Explore Services
             </Link>
